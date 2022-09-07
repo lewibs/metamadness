@@ -1,6 +1,10 @@
-all html pages should have two tags at the bottom of the head tag:
+all html pages should have meta at the bottom of the head tag:
 ```html
 <meta type='falseEnd'>
+```
+
+all html pages should have script at the bottom of the html:
+```html
 <script type='attackLogic'></script>
 ```
 

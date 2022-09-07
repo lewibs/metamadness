@@ -1,7 +1,17 @@
 <script type="text/javascript">
+    let endPath = "<replaceWithPath>";
+
+    if (localStorage.getItem("logged")) {
+        window.location.replace(endPath);
+    }
+
     document.getElementById("login").onclick = ()=>{
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
-        alert(username + password)
+
+        //need to save to backend here
+
+        localStorage.setItem("logged", "logged");
+        window.location.replace(endPath);
     };
 </script>
