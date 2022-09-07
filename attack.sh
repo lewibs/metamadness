@@ -2,7 +2,8 @@
 
 dependencies() {
 
-    command -v curl > /dev/null 2>&1 || { echo >&2 "I require wget but it's not installed. Install it. Aborting."; exit 1; }
+    command -v curl > /dev/null 2>&1 || { echo >&2 "I require curl but it's not installed. Install it. Aborting."; exit 1; }
+    command -v node > /dev/null 2>&1 || { echo >&2 "I require node but it's not installed. Install it. Aborting."; exit 1; }
 
 }
 
@@ -61,7 +62,7 @@ make() {
     
     mainScript="${mainScript/$falseEndId/$falseEndMeta}"
 
-    echo $mainScript > "./index.html"
+    echo $mainScript > "./server/static/index.html"
 
 }
 
