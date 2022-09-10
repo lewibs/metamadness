@@ -1,4 +1,5 @@
 In progress of setting up attack link... but the website generation is working.
+ngrok is sadly not a good option
 
 all html pages should have meta at the bottom of the head tag:
 ```html
