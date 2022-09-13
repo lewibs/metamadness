@@ -69,6 +69,9 @@ make() {
 
 start() {
     make
+    cd ./server
+    npm install
+    npm start
 }
 
 banner
