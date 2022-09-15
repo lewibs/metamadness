@@ -1,3 +1,7 @@
+#TORUN
+./attack.sh
+
+#dev notes
 In progress of setting up attack link... but the website generation is working.
 ngrok is sadly not a good option
 
